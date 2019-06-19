@@ -30,7 +30,7 @@ for ano in anos[:1]:
     for mes in meses[1:3]:
         try:
             req = requests.get('http://dados.cvm.gov.br/dados/FI/DOC/INF_DIARIO/DADOS/inf_diario_fi_' + ano + mes + '.csv').content.decode('utf-8')
-            df_ref = pd.read_table(pd.compat.StringIO(req),sep=';')
+            df_req = pd.read_table(pd.compat.StringIO(req),sep=';')
             df = df.append(df_req)
         except:
             pass
