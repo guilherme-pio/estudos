@@ -1,44 +1,89 @@
 import pyodbc
 
-lote = 1000 #Quantidade de buscas por consulta
+def select_in(query, connection, lista_pes, lista_destino, chunk=1000):
+    """
+    Utiliza uma como filtro para conseguir dados em outra lista. Similar ao uso da T_PESSOA.
 
-#Cria conexão com o DB
-connection = pyodbc.connect("Driver={SQL Server Native Client 11.0};"
-                        "Server=SERVIDOR;"
-                        "Database=DB_NAME;"
-                        "Trusted_Connection=yes;")
+    Parameters
+    ----------
+    query : str
+    Query SQL com o parâmetro ' IN ({0}) para a variável que representa um filtro.
+    Exemplo: 'SELECT NUM_PES FROM GDB2PRO.PESSOA WHERE NUM_PES IN ({0})
 
-#Query SQL que será executada para buscar os endereços
-query = 'SELECT CPF, ENDERECO FROM ENDERECOS WHERE CPF IN ({0})'
+    connection : SQLAlchemy connectable(engine/connection), database string URI,
+    or sqlite3 DBAPI2 connection
+    Conexão ao DB.
+    Exemplo: mb.con_work()
 
-#Lista de pessoas com CPFs distintos
-lista_pes = list(str(x) for x in pd.unique(df['CPF'][0:2000]))
+    lista_pes : list
+    É a lista que contem a lista das variáveis a serem filtradas na query.
+    Exemplo: lista contendo CPFs de pessoas
 
-#Lista vazia onde serão inseridas as informações
-lista_destino = []
+    lista_destino : list
+    É o nome da lista que receberá os dados retornados da query.
+    Geralmente é uma lista em branco.
 
+    chunk : int, default: 1000
+    É o tamanho dos lotes de buscas.
 
-#Cria os lotes das consultas, como um slicer. Ex: [0:1000] e assim vai até o tamanho total da base
-for i in range(1, round(len(lista_pes) / lote) + 1): #lista_pes = lista com os cpfs que quero filtrar na consulta. Exemplo: [12345678901, 12345678902, ...]
-    y = i * lote
-    x = -lote
-    x += y
-    lotes = [(x, y)]
-    
-    #Itera pelos agrupamentos de slicers criados. Ex: [0:1000], [1000:2000]...
-    for x, y in lotes:
-        query_nova = query.format(', '.join('?' for _ in lista_pes[x:y])) #Insere ? de acordo com a quantidade fornecida nos lotes. Exemplo: SELECT * FROM TABELA WHERE CPF IN (?, ?, ?, ... 1000x)
-        cursor = connection.cursor() #Cria cursor da conexão com o DB
-        cursor.execute(query_nova, lista_pes[x:y]) #Executa a nova query trazendo apenas 1000 pessoas por vez 
-        for row in cursor:
-            lista_destino.append(row) #Insere na tabela os dados de CPF e ENDEREÇO
+    """
+    #Caso a base a ser filtrada possua menos de 1000 registros, cria-se uma query única, sem a necessidade de múltiplas consultas
+    if len(lista_pes) < 1000:
+        y = len(lista_pes)
+        q = query.format(', '.join('?' for _ in lista_pes[:y]))
+        cursor = connection.cursor()
+        cursor.execute(q, lista_pes[:y])
+        try:
+            cursor.fetchone()[1]
+            for row in cursor:
+                lista_destino.append(row)
+        except:
+            for row in cursor:
+                lista_destino.append(row[0])   
+                
+    else:
+    #Cria querys de 1.000 em 1.000 itens para serem filtrados e appenda os resultados em uma lista vazia
+        for i in range(1, round( len(lista_pes) / chunk) + 1):
+            x = i * chunk
+            y = -chunk
+            y += x
+            chunks = [(y, x)]
 
-            
-#Realiza o mesmo processo acima pro resto da base. Ex: se a minha lista_pes tiver 300.070 pessoas, o processo acima não pega as últimas 70 pessoas por causa do arredondamento. Logo esta parte final busca este restante.
-final = [(lotes[0][-1], len(lista_pes))]
-for x, y in final:
-    query_nova = query.format(', '.join('?' for _ in lista_pes[x:y]))
-    cursor = connection.cursor()
-    cursor.execute(query_nova, lista_pes[x:y])
-    for row in cursor:
-        lista_destino.append(row)   
+            for x, y in chunks:
+                if y < len(lista_pes):
+                    q = query.format(', '.join('?' for _ in lista_pes[x:y]))
+                else:
+                    q = query.format(', '.join('?' for _ in lista_pes[x:len(lista_pes)]))
+                
+                cursor = connection.cursor()
+                
+                try:
+                    cursor.execute(q, lista_pes[x:y])
+                except:
+                    cursor.execute(q, lista_pes[x:len(lista_pes)])
+                    
+                try:
+                    cursor.fetchone()[1]
+                    for row in cursor:
+                        lista_destino.append(row)
+                except:
+                    for row in cursor:
+                        lista_destino.append(row[0])                    
+                    
+        #Como a consulta anterior cria de 1.000 em 1.000, esta verifica se faltaram itens no loop anterior e appenda o restante
+        final = [(chunks[0][-1], len(lista_pes))]
+        try:
+            for x, y in final:
+                q = query.format(', '.join('?' for _ in lista_pes[x:y]))
+                cursor = connection.cursor()
+                cursor.execute(q, lista_pes[x:y])
+                
+                try:
+                    cursor.fetchone()[1]
+                    for row in cursor:
+                        lista_destino.append(row)
+                except:
+                    for row in cursor:
+                        lista_destino.append(row[0])                     
+        except:
+            pass
