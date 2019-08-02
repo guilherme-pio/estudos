@@ -38,3 +38,6 @@ lista_destino =   [('12345678911', 'ANOTONIO DA SILVA', '1960-01-01', 'MASCULINO
                   ('98765432112', 'REGIS TADEU', '1955-03-25', 'MASCULINO')]
 ```
 
+### [Dados Comissão de Valores Mobiliários](https://github.com/guilherme-pio/estudos/blob/master/Python/cvm.py)
+
+Busca dados históricos de fundos da CVM.
