@@ -6,7 +6,7 @@ Códigos criados por mim durante estudos ou durante o desenvolvimento de alguns 
 
 Funções e scripts Python voltados principalmente para manipulação de dados e Data Science.
 
-### select in
+### [select in](https://github.com/guilherme-pio/estudos/blob/master/Python/select_in.py)
 Função que faz vários SELECTs em lotes para retornar dados filtrados.
 
 Exemplo: num arquivo excel existem milhares de CPFs de clientes. É necessário consultar informações cadastrais destes clientes no banco de dados. Para realizar a consulta, criei esta função que cria várias querys em lotes para gerar vários selects e appenda os resultados numa tabela vazia.
