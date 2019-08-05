@@ -7,8 +7,25 @@ Códigos criados por mim durante estudos ou durante o desenvolvimento de alguns 
 Funções e scripts Python voltados principalmente para manipulação de dados e Data Science.
 
 ### [val_model](https://github.com/guilherme-pio/estudos/blob/master/Python/val_model.py)
-Função que resume algumas métricas principais de um modelo de machine learning (score da acurácia, parâmetros e matriz de confusão com seus percentuais). 
+Função simples que resume algumas métricas principais de um modelo de machine learning (score da acurácia, parâmetros e matriz de confusão com seus percentuais). 
 
+```
+#Exemplo
+val_model(y_true, y_pred, print_parameters=True, print_time=True)
+
+```
+```
+Accuracy : 72.5100% 
+
+16081 	(73%)   5995 	  (27%)
+6134 	  (28%)   15916 	(72%)
+
+Parameter 1
+Parameter 2
+Parameter 3
+
+Mon Aug  5 13:35:57 2019 
+```
 
 ### [select in](https://github.com/guilherme-pio/estudos/blob/master/Python/select_in.py)
 Função que faz vários SELECTs em lotes para retornar dados filtrados.
@@ -37,12 +54,14 @@ select_in(query, connection, lista_pes, lista_destino, chunk=1000)
 Neste caso, após rodar a função, a lista destino receberá tuplas com os dados de CPF, nome, data de nascimento e sexo.
 
 ```
-lista_destino =   [('12345678911', 'ANOTONIO DA SILVA', '1960-01-01', 'MASCULINO'),
-                  ('11122233345', 'MARIA JOSÉ', '1950-06-02', 'FEMININO'),
-                  ('98765432112', 'REGIS TADEU', '1955-03-25', 'MASCULINO')]
+lista_destino 
+```
+```
+[('12345678911', 'ANOTONIO DA SILVA', '1960-01-01', 'MASCULINO'),
+('11122233345', 'MARIA JOSÉ', '1950-06-02', 'FEMININO'),
+('98765432112', 'REGIS TADEU', '1955-03-25', 'MASCULINO')]
 ```
 
 ### [Dados Comissão de Valores Mobiliários](https://github.com/guilherme-pio/estudos/blob/master/Python/cvm.py)
 
 Busca dados históricos de fundos da CVM.
-
