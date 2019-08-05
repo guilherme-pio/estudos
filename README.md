@@ -6,6 +6,10 @@ Códigos criados por mim durante estudos ou durante o desenvolvimento de alguns 
 
 Funções e scripts Python voltados principalmente para manipulação de dados e Data Science.
 
+### [val_model](https://github.com/guilherme-pio/estudos/blob/master/Python/val_model.py)
+Função para trazer o score da acurácia de um modelo, a matriz de confusão e seus percentuais. 
+
+
 ### [select in](https://github.com/guilherme-pio/estudos/blob/master/Python/select_in.py)
 Função que faz vários SELECTs em lotes para retornar dados filtrados.
 
@@ -41,3 +45,4 @@ lista_destino =   [('12345678911', 'ANOTONIO DA SILVA', '1960-01-01', 'MASCULINO
 ### [Dados Comissão de Valores Mobiliários](https://github.com/guilherme-pio/estudos/blob/master/Python/cvm.py)
 
 Busca dados históricos de fundos da CVM.
+
