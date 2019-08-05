@@ -12,13 +12,12 @@ Função simples que resume algumas métricas principais de um modelo de machine
 ```
 #Exemplo
 val_model(y_true, y_pred, print_parameters=True, print_time=True)
-
 ```
 ```
 Accuracy : 72.5100% 
 
-16081 	(73%)   5995 	  (27%)
-6134 	  (28%)   15916 	(72%)
+16081 (73%)   5995 (27%)
+6134 (28%)    15916 (72%)
 
 Parameter 1
 Parameter 2
