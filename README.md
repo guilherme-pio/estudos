@@ -7,7 +7,7 @@ Códigos criados por mim durante estudos ou durante o desenvolvimento de alguns 
 Funções e scripts Python voltados principalmente para manipulação de dados e Data Science.
 
 ### [val_model](https://github.com/guilherme-pio/estudos/blob/master/Python/val_model.py)
-Função para trazer o score da acurácia de um modelo, a matriz de confusão e seus percentuais. 
+Função que resume algumas métricas principais de um modelo de machine learning (score da acurácia, parâmetros e matriz de confusão com seus percentuais). 
 
 
 ### [select in](https://github.com/guilherme-pio/estudos/blob/master/Python/select_in.py)
