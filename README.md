@@ -33,7 +33,7 @@ Exemplo: num arquivo excel existem milhares de CPFs de clientes. É necessário 
 
 ```
 #Query do banco de dados onde estão as informações a serem buscadas. No exemplo, informações de clientes.
-query = 'SELECT CPF, NOME, DTA_NASCIMENTO, SEXO FROM dbo.CLIENTES WHERE CPF IN ({0)}'
+query = 'SELECT CPF, NOME, DTA_NASCIMENTO, SEXO FROM dbo.CLIENTES WHERE CPF IN ({0})'
 
 #Driver de conexão ao DB
 connection = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=test;DATABASE=test;UID=user;PWD=password')
